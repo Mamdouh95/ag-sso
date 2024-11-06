@@ -11,7 +11,7 @@ return [
     'logout_url' => env('SSO_LOGOUT_URL'),
 
     // User Model
-    'user_model' => env('SSO_USER_MODEL', '\App\Models\User::class'), // Default to \App\Models\User
+    'user_model' => env('SSO_USER_MODEL', '\App\Models\User'), // Default to \App\Models\User
 
     // Field mapping between SSO data and local user data
     'field_mapping' => []
