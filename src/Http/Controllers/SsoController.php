@@ -13,7 +13,7 @@ class SsoController extends Controller
     {
         try {
             if ($request->has('token')) {
-                $userModel = config('sso.user_model');
+                $userModel = app(config('sso.user_model'));
                 $fieldMapping = config('sso.field_mapping', []);
 
                 // Fetch user info from SSO
