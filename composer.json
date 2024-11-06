@@ -1,6 +1,7 @@
 {
   "name": "agriserv/sso",
   "description": "A package to integrate with Agriserv SSO.",
+  "license": "MIT",
   "type": "library",
   "autoload": {
     "psr-4": {
