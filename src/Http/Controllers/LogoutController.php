@@ -11,6 +11,6 @@ class LogoutController extends Controller
         // Handle logout logic, e.g., clear session or revoke token
         auth()->logout();
 
-        return redirect()->route('frontend.auth.sso');
+        return redirect()->away(config('sso.logout_url'));
     }
 }

@@ -39,7 +39,7 @@ class SsoController extends Controller
                 \Auth::login($user);
 
                 // Redirect the user after login
-                return redirect()->to(session('previousUrl') ?? route('frontend.portal.home.index'));
+                return redirect()->to(session('previousUrl')) ?? redirect()->to('/');
 
             } else {
                 // Encrypt the redirect URI using the secret key
