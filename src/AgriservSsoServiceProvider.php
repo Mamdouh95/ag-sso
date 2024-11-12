@@ -2,6 +2,7 @@
 
 namespace Agriserv\SSO;
 
+use Agriserv\SSO\Http\Middleware\SsoAuthenticate;
 use Illuminate\Support\ServiceProvider;
 
 class AgriservSsoServiceProvider extends ServiceProvider
@@ -23,5 +24,8 @@ class AgriservSsoServiceProvider extends ServiceProvider
 
         // Load routes
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+
+        // Load Middleware
+        $this->app['router']->aliasMiddleware('sso_auth', SsoAuthenticate::class);
     }
 }
