@@ -9,15 +9,13 @@ class SsoAuthenticate
 {
     public function handle(Request $request, Closure $next)
     {
-        // Custom authentication logic for SSO
         if (!auth()->check()) {
-            session()->put('url.intended', url()->current());
-
+            $request->session()->put('previousUrl', $request->url());
             return redirect()->route('auth.sso');
         }
 
-        if ($intendedUrl = session('url.intended')) {
-            session()->forget('url.intended'); // Clear the intended URL
+        if ($intendedUrl = session('previousUrl')) {
+            session()->forget('previousUrl'); // Clear the intended URL
             return redirect()->to($intendedUrl);
         }
 
