@@ -22,6 +22,11 @@ class AgriservSsoServiceProvider extends ServiceProvider
             __DIR__ . '/Config/sso.php' => config_path('sso.php'),
         ], 'config');
 
+        // Publish the event
+        $this->publishes([
+            __DIR__ . '/../Events/UserFetchedFromSso.php' => app_path('Events/UserFetchedFromSso.php'),
+        ], 'sso-event');
+
         // Load routes
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
 
