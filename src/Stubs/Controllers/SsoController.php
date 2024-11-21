@@ -1,39 +1,42 @@
 <?php
 
-namespace Agriserv\SSO\Events;
+namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-class UserFetchedFromSso
+class SsoController extends \Agriserv\SSO\Http\Controllers\SsoController
 {
-    use Dispatchable, SerializesModels;
-
     /**
-     * Create a new event instance.
+     * Handle the fetched user info.
      *
      * @param array $userInfo
-     * @return void
+     * @return mixed
      */
-    public function __construct(array $userInfo)
+    protected function handleUserInfo(array $userInfo)
     {
         $userModel = app(config('sso.user_model'));
 
+        // Create or update the user
         $user = $userModel::updateOrCreate([
             'sso_id' => $userData['sso_id'] ?? $userInfo['service']['items']['id'],
         ], $userData);
 
-        // Dynamically assign roles if provided
+        // Dynamically assign roles
         if (!empty($userInfo['service']['items']['roles'])) {
             $this->syncUserRoles($user, $userInfo['service']['items']['roles']);
         }
 
         // Log the user in
         Auth::login($user);
+
+        // Redirect after login
+        return redirect()->to(session('previousUrl') ?? '/');
     }
 
+    /**
+     * Sync roles with the local user.
+     */
     private function syncUserRoles($user, array $roles)
     {
         if (method_exists($user, 'syncRoles')) {
@@ -42,8 +45,6 @@ class UserFetchedFromSso
             } catch (\Exception|\Throwable $e) {
                 Log::warning("Failed to sync roles: " . $e->getMessage());
             }
-        } else {
-            Log::info("User model does not support role synchronization.");
         }
     }
 }

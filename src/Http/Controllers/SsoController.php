@@ -27,10 +27,9 @@ class SsoController extends Controller
                     throw new \Exception("Invalid SSO response format.");
                 }
 
-                event(new UserFetchedFromSso($userInfo));
+                $this->handleUserInfo($userInfo['service']['items']);
 
-                // Redirect after login
-                return redirect()->to(session('previousUrl') ?? '/');
+                return redirect()->to('/');
 
             } else {
                 // Encrypt the redirect URI
@@ -50,5 +49,17 @@ class SsoController extends Controller
             Log::error("SSO Login Error: " . $exception->getMessage());
             return redirect()->to('/')->withErrors(['sso_error' => 'Single sign-on failed. Please try again.']);
         }
+    }
+
+    /**
+     * Handle the fetched user info. This is meant to be overridden or published in the application.
+     *
+     * @param array $userInfo
+     * @return mixed
+     */
+    protected function handleUserInfo(array $userInfo)
+    {
+        // Stub to be published in the application
+        throw new \Exception("Please implement the 'handleUserInfo' method in your application.");
     }
 }
