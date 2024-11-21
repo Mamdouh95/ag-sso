@@ -2,7 +2,6 @@
 
 namespace Agriserv\SSO\Http\Controllers;
 
-use Agriserv\SSO\Events\UserFetchedFromSso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Encryption\Encrypter;
