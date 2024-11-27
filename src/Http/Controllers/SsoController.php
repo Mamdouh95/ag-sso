@@ -51,9 +51,7 @@ class SsoController extends Controller
             throw new \Exception("Invalid SSO response format.");
         }
 
-        $this->handleUserInfo($userInfo['service']['items']);
-
-        return redirect()->to('/');
+        return $this->handleUserInfo($userInfo['service']['items']);
     }
 
     /**
