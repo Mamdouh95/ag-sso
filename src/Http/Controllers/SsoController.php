@@ -36,7 +36,7 @@ class SsoController extends Controller
     public function callback(Request $request)
     {
         // Fetch user info from SSO
-        if ($request->has('token')) {
+        if (!$request->has('token')) {
             throw new \Exception("Token not found.");
         }
 
