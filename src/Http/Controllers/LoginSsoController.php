@@ -19,12 +19,12 @@ class LoginSsoController extends \Agriserv\SSO\Http\Controllers\SsoController
 
         // Create or update the user
         $user = $userModel::updateOrCreate([
-            'sso_id' => $userData['sso_id'] ?? $userInfo['service']['items']['id'],
+            'sso_id' => $userData['sso_id'] ?? $userInfo['id'],
         ], $userData);
 
         // Dynamically assign roles
-        if (!empty($userInfo['service']['items']['roles'])) {
-            $this->syncUserRoles($user, $userInfo['service']['items']['roles']);
+        if (!empty($userInfo['roles'])) {
+            $this->syncUserRoles($user, $userInfo['roles']);
         }
 
         // Log the user in
