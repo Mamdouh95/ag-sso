@@ -23,9 +23,7 @@ class LoginSsoController extends \Agriserv\SSO\Http\Controllers\SsoController
         ], $userData);
 
         // Dynamically assign roles
-        if (!empty($userInfo['roles'])) {
-            $this->syncUserRoles($user, $userInfo['roles']);
-        }
+        $this->syncUserRoles($user, $userInfo['roles']);
 
         // Log the user in
         Auth::login($user);

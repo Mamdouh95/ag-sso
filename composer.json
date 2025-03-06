@@ -1,29 +1,29 @@
-{
-  "name": "agriserv/sso",
-  "description": "A package to integrate with Agriserv SSO.",
-  "license": "MIT",
-  "type": "library",
-  "autoload": {
-    "psr-4": {
-      "Agriserv\\SSO\\": "src/"
-    }
-  },
-  "authors": [
-    {
-      "name": "Mamdouh Eissa",
-      "email": "mamdouh.issa@agriserv.sa"
-    }
-  ],
-  "minimum-stability": "stable",
-  "require": {
-    "laravel/framework": "^8.0|^9.0|^10.0|^11.0",
-    "guzzlehttp/guzzle": "^7.0"
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Agriserv\\SSO\\AgriservSsoServiceProvider"
-      ]
+  {
+    "name": "agriserv/sso",
+    "description": "A package to integrate with Agriserv SSO.",
+    "license": "MIT",
+    "type": "library",
+    "autoload": {
+      "psr-4": {
+        "Agriserv\\SSO\\": "src/"
+      }
+    },
+    "authors": [
+      {
+        "name": "Mamdouh Eissa",
+        "email": "mamdouh.issa@agriserv.sa"
+      }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+      "laravel/framework": "^8.0|^9.0|^10.0|^11.0|^12.0",
+      "guzzlehttp/guzzle": "^7.0"
+    },
+    "extra": {
+      "laravel": {
+        "providers": [
+          "Agriserv\\SSO\\AgriservSsoServiceProvider"
+        ]
+      }
     }
   }
-}
