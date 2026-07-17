@@ -11,6 +11,9 @@ class LogoutController extends Controller
         // Handle logout logic, e.g., clear session or revoke token
         auth()->logout();
 
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect()->away(config('sso.logout_url'));
     }
 }

@@ -10,13 +10,12 @@ class SsoAuthenticate
     public function handle(Request $request, Closure $next)
     {
         if (!auth()->check()) {
-            $request->session()->put('previousUrl', $request->url());
-            return redirect()->route('auth.sso');
-        }
+            // Only remember navigable pages, keeping the query string
+            if ($request->isMethod('GET') && !$request->expectsJson()) {
+                $request->session()->put('previousUrl', $request->fullUrl());
+            }
 
-        if ($intendedUrl = session('previousUrl')) {
-            session()->forget('previousUrl'); // Clear the intended URL
-            return redirect()->to($intendedUrl);
+            return redirect()->route('auth.sso');
         }
 
         return $next($request);

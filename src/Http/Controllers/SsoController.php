@@ -36,8 +36,10 @@ class SsoController extends Controller
     public function callback(Request $request)
     {
         // Fetch user info from SSO
-        if (!$request->has('token')) {
-            throw new \Exception("Token not found.");
+        if (!$request->filled('token')) {
+            Log::warning('SSO Callback: token missing, restarting SSO flow.');
+
+            return redirect()->route('auth.sso');
         }
 
         $userInfo = Http::acceptJson()
@@ -48,8 +50,24 @@ class SsoController extends Controller
             ->json();
 
         if (!isset($userInfo['service']['items'])) {
-            throw new \Exception("Invalid SSO response format.");
+            // Expired/invalid one-time token — restart the SSO flow instead of erroring,
+            // but bail out after a few failures to avoid a redirect loop
+            Log::warning('SSO Callback: invalid response for token exchange.');
+
+            $retries = (int) session('ssoRetryCount', 0);
+
+            if ($retries >= 3) {
+                session()->forget('ssoRetryCount');
+
+                return redirect()->to('/')->withErrors(['sso_error' => 'Single sign-on failed. Please try again.']);
+            }
+
+            session()->put('ssoRetryCount', $retries + 1);
+
+            return redirect()->route('auth.sso');
         }
+
+        session()->forget('ssoRetryCount');
 
         return $this->handleUserInfo($userInfo['service']['items']);
     }
