@@ -4,6 +4,26 @@ Easily integrate your application with **AgriServ SSO**.
 
 ---
 
+## v2.0
+
+v2.0 strengthens the login flow: the callback authenticates to the SSO server
+when exchanging the one-time login token, and the handshake carries a
+single-use `state` value that is verified when the user returns to
+`auth/callback`.
+
+### Upgrading from v1.x
+
+1. Upgrade the package: `composer require agriserv/sso:^2.0`.
+   No changes to your published `LoginSsoController` are needed.
+2. The SSO server must be running its matching v2 release.
+3. After verifying login works, ask the SSO Administrator to enable
+   **Require Authenticated Exchange** for your application.
+
+> Logins started from the SSO portal's app tiles are transparently restarted
+> as app-initiated logins (one extra redirect). This is expected.
+
+---
+
 ## Installation Steps
 
 ### 1. Install the Package
