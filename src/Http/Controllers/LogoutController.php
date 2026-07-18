@@ -14,6 +14,10 @@ class LogoutController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->away(config('sso.logout_url'));
+        // Without a portal logout URL the SSO session survives and silently
+        // signs the user back in on the next protected page
+        $logoutUrl = config('sso.logout_url');
+
+        return $logoutUrl ? redirect()->away($logoutUrl) : redirect()->to('/');
     }
 }

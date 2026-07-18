@@ -58,9 +58,12 @@ SSO_BASE_URI="https://sso.agriserv.sa"
 SSO_ID="APP_ID" # Replace with the Application ID provided by AgriServ Admin
 SSO_SECRET_KEY="SECRET_KEY" # Replace with the Secret Key provided by AgriServ Admin
 SSO_REDIRECT_URI="https://your-app.example.com/auth/callback" # Must be the auth/callback route, and must match the redirect URI registered with the AgriServ Admin exactly
+SSO_LOGOUT_URL="https://sso.agriserv.sa/auth/logout" # The SSO portal's logout route
 ```
 
 > **Important:** `SSO_REDIRECT_URI` must point at the package's `auth/callback` route, not your application root. If it points anywhere else the one-time login token is never exchanged and the user bounces between your app and the SSO portal.
+
+> **Important:** `SSO_LOGOUT_URL` must point at the SSO portal's `auth/logout` route. Without it, logging out only ends your app's local session — the portal session survives and silently signs the user back in on the next protected page, making logout appear broken.
 
 ### 5. Override the handleUserInfo Method
 Once the LoginSsoController is published, you can override the handleUserInfo method to handle the logic for processing user data from SSO.
